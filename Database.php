@@ -23,7 +23,7 @@ class Database
         }
     }
 
-    public function selectAll($query){
+    public function select($query){
         $result = $this->link->query($query) or die ($this->link->error.__LINE__);
         if ($result->num_rows > 0) {
             return $result;
@@ -39,6 +39,25 @@ class Database
             header("Location: index.php?msg=".urlencode('Data Inserted Successfully'));
         } else {
            die("Error: (".$this->link->errno.")".$this->link->error);
+        }
+    }
+
+
+    public function update($query){
+        $update_row = $this->link->query($query) or die ($this->link->error.__LINE__);
+        if($update_row){
+            header("Location: index.php?msg=".urlencode('Data Updated Successfully'));
+        } else {
+           die("Error: (".$this->link->errno.")".$this->link->error);
+        }
+    }
+
+    public function delete($query){
+        $delete_row = $this->link->query($query) or die ($this->link->error.__LINE__);
+        if($delete_row){
+            header("Location: index.php?msg=".urlencode('Data Deleted Succesfully'));
+        } else {
+            die("Error:(". $this->link->errno.")".$this->link->error);
         }
     }
 

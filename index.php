@@ -6,7 +6,7 @@ include 'Database.php';
 <?php
 $db = new Database();
 $query = "SELECT * FROM tbl_user ORDER BY id";
-$read = $db->selectAll($query);
+$read = $db->select($query);
 
 
 ?>
@@ -15,7 +15,9 @@ $read = $db->selectAll($query);
 if(isset($_GET['msg'])){
     echo "<span class='text-success'>".$_GET['msg']."</span>";
 }
-
+if(isset($error)){
+    echo "<span class='text-danger'>".$error."</span>";
+}
 
 ?>
 
@@ -29,15 +31,17 @@ if(isset($_GET['msg'])){
     </thead>
     <tbody>
         <?php if($read) { ?>
-            <?php while($row = $read->fetch_assoc()) { 
-                
+            <?php 
+                $i=0;
+                while($row = $read->fetch_assoc()) { 
+                $i++;
             ?>
             <tr>
-                <td><?php echo $row['id'] ?></td>
+                <td><?php echo $i ?></td>
                 <td><?php echo $row['name'] ?></td>
                 <td><?php echo $row['email'] ?></td>
                 <td><?php echo $row['skill'] ?></td>
-                <td><a href="update.php?id=<?php echo $row['id']?>" >Action</a></td>
+                <td><a href="update.php?id=<?php echo urlencode($row['id'])?>" >Edit</a>&nbsp<a href="delete.php?id=<?php echo urlencode($row['id'])?>" >Delete</a></td>
             </tr>
             <?php } ?>
         <?php } else { ?>
